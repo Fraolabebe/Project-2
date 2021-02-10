@@ -50,34 +50,16 @@ function PopulateDropdown() {
     });
 
 
-    d3.json('/api/Annualcostturnover').then(data => {
-        annualCostofAttrition = data.map(d => d['AnnualCostofAttrition']);
+    d3.json('/api//api/Annualcostturnover').then(data => {
+        AnnualCostofAttrition = data.map(d => d['AnnualCostofAttrition']);
 
-        annualCostofAttrition.forEach(turnoverCost => {
+        AnnualCostofAttrition.forEach(turnoverCost => {
             d3.select('#educFieldDropdown').append('option').text(turnoverCost);
         });
     
     });
-
-
-    d3.json('/api/genderdemogrpahic').then(data => {
-        genderdemographic = data.map(d => d['MonthlyIncome']);
-
-        genderdemographic.forEach(Genderdemo => {
-            d3.select('#genderFieldDropdown').append('option').text(Genderdemo);
-        });
     
-    });
 
-
-    d3.json('/api/genderIncome').then(data => {
-        genderincome = data.map(d => d['Income']);
-
-        genderincome.forEach(income => {
-            d3.select('#genderIncomeFieldDropdown').append('option').text(income);
-        });
-    
-    });
     
 }
 PopulateDropdown();

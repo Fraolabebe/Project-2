@@ -1,1 +1,13 @@
-/* Your custom CSS here */
+body {
+  background-color: black;
+}
+
+.carousel-item img {
+    max-height: 400px;
+    width: auto;
+    min-width: auto;
+    object-fit: cover;
+  }
+
+  
+  
