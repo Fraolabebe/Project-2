@@ -133,6 +133,40 @@ def educ():
   #Return json to client
     return data_json
 
+# dept_gender_stats endpoint
+@app.route("/api/dept_gender_stats")
+def dept_gender_stats():
+
+    conn = engine.connect()
+
+    query = '''
+        SELECT 
+            gender,
+            department,
+            AVG(MonthlyIncome * 12) AS annual_income_avg,
+            SUM(CASE Attrition WHEN 'YES' THEN 1 ELSE 0 END) AS attrition_sum,    
+            COUNT(*) AS employee_count,
+            AVG(JobSatisfaction) AS job_satisfaction_avg,
+            AVG(YearsAtCompany) AS tenure_avg
+        FROM 
+            employee_survey
+        GROUP BY
+            gender,
+            department
+        ORDER BY
+            department
+    '''
+
+    # Opening csv data file 
+    data_df = pd.read_sql(query, con=conn)
+    data_json = data_df.to_json(orient='records')
+   
+    # Close database connection
+    conn.close()
+
+    #Return json to client
+    return data_json
+
 @app.route("/api/Annualcostturnover")
 def employeecount():
 
@@ -159,6 +193,20 @@ def employeecount():
 
 #close db connection
     
+# Average Job Satisfaction
+
+@app.route("/api/job_satisfaction_avg")
+def job_satisfaction_avg():
+
+   conn = engine.connect()
+
+   job_satisfaction_avg = pd.read_sql('SELECT AVG(JobSatisfaction) AS job_satisfaction_avg FROM employee_survey', con=conn)
+   job_satisfaction_avg_json = job_satisfaction_avg.to_json(orient='records')
+ 
+
+   conn.close()
+
+   return job_satisfaction_avg_json
 
 
 @app.route("/api/genderdemogrpahic")
@@ -167,17 +215,20 @@ def genderdemogrpahic():
     conn = engine.connect()
   
     query = '''
-    SELECT 
-	    MonthlyIncome,
-        Attrition,
-        Gender,
-        Department,
-        JobSatisfaction,
-        YearsAtCompany
+     SELECT 
+	    (MonthlyIncome * 12) AS annual_income,
+        CASE Attrition WHEN 'YES' then 1 ELSE 0 END AS attrition,    
+        Gender AS gender,
+        Department AS department,
+        JobSatisfaction AS jobsatisfaction,
+        YearsAtCompany AS yearsatcompany
     FROM 
-	    employee_survey
-    ORDER BY JobSatisfaction
-
+	    employee_survey 
+	WHERE  NOT (attrition is NULL OR
+		gender IS NULL OR
+        department IS NULL OR
+        jobsatisfaction IS NULL OR
+        yearsatcompany IS NULL);
     '''
     Gender_Demographic_df = pd.read_sql(query, con=conn)
     Gender_Demographic_json = Gender_Demographic_df.to_json(orient='records')

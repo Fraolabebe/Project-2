@@ -70,14 +70,16 @@ function PopulateDropdown() {
     });
 
 
-    d3.json('/api/genderIncome').then(data => {
-        genderincome = data.map(d => d['Income']);
+    d3.json('/api//api/dept_gender_stats').then(data => {
+        genderStats = data.map(d => d['Income']);
 
-        genderincome.forEach(income => {
+        genderStats.forEach(income => {
             d3.select('#genderIncomeFieldDropdown').append('option').text(income);
         });
     
     });
+    
+
     
 }
 PopulateDropdown();
