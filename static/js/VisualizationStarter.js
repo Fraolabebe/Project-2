@@ -50,8 +50,7 @@ function PopulateDropdown() {
     });
 
 
-    d3.json('/api/Annualcostturnover').then(data => {
-        annualCostofAttrition = data.map(d => d['AnnualCostofAttrition']);
+    d3.json('/api/Annualcostturnover').then(data => {        annualCostofAttrition = data.map(d => d['AnnualCostofAttrition']);
 
         annualCostofAttrition.forEach(turnoverCost => {
             d3.select('#educFieldDropdown').append('option').text(turnoverCost);
@@ -60,7 +59,7 @@ function PopulateDropdown() {
     });
 
 
-    d3.json('/api/genderdemogrpahic').then(data => {
+    d3.json('/api/gender_demogrpahic').then(data => {
         genderdemographic = data.map(d => d['MonthlyIncome']);
 
         genderdemographic.forEach(Genderdemo => {

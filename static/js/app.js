@@ -1,3 +1,43 @@
+/*******************
+ * Attrition bar chart
+ */
+d3.json('/api/gender_demogaphic').then(data => {
+
+//   EmployeeNumber AS employee_number,
+//   Department AS department,
+// Gender AS gender,
+// (MonthlyIncome * 12) AS annual_income,
+//   CASE Attrition WHEN 'YES' then 1 ELSE 0 END AS attrition,    
+//   JobSatisfaction AS jobsatisfaction,
+//   YearsAtCompany AS yearsatcompany
+
+  data = data.sort((d1, d2) => {d2['annual_income'] - d1['annual_income']});
+
+  employee_number = data.map(d => employee_number);
+  attrition = data.map(d => attrition);
+  annual_income = data.map(d => annual_income);
+
+  var trace1 = {
+    x: employee_number,
+    y: annual_income,
+    marker:{
+      color: attrition
+    },
+    type: 'bar'
+  };
+  
+  var data = [trace1];
+  
+  var layout = {
+    title: 'Attrition / Salary Stuff'
+  };
+  
+  Plotly.newPlot('attrition-salary', data, layout);
+
+});
+
+
+
 // Department-Gender Stats
 // d3.json('/api/dept_gender_stats').then(data => {
 
@@ -35,85 +75,166 @@
 
 // Reactive Chart
 
-//Department-Gender Stats
-d3.json('/api/genderdemogrpahic').then(data => {
+// function showData() {
+//   d3.json('/samples').then(data => {
+//       var { metadata, samples } = data;
+//       var selection = d3.select('select').property('value');
 
+//       d3.select('.panel-body').html('');
+//       metadata = metadata.filter(obj => obj.id == selection)[0];
+//       Object.entries(metadata).forEach(([key, val]) => {
+//           d3.select('.panel-body').append('h5').text(`${key.toUpperCase()}: ${val}`);
+//       });
+
+//       samples = samples.filter(obj => obj.id == selection)[0];
+//       var { otu_ids, otu_labels, sample_values } = samples;
+
+//       var barData = [{
+//           x: sample_values.slice(0,10).reverse(),
+//           y: otu_ids.slice(0,10).reverse().map(id => `OTU ${id}`),
+//           text: otu_labels.slice(0,10).reverse(),
+//           type: 'bar',
+//           orientation: 'h'
+//       }];
+
+//       Plotly.newPlot('bar', barData);
+
+//       var bubbleData = [{
+//           x: otu_ids,
+//           y: sample_values,
+//           text: otu_labels,
+//           mode: 'markers',
+//           marker: {
+//               color: otu_ids,
+//               size: sample_values
+//           }
+//       }];
+
+//       Plotly.newPlot('bubble', bubbleData);
+
+//       var gaugeData = [
+//           {
+//               domain: { x: [0, 1], y: [0, 1] },
+//               value: metadata.wfreq,
+//               title: { text: "Belly Button Wash Frequency <br> Scrubs per Week" },
+//               type: "indicator",
+//               mode: "gauge+number",
+//               delta: { reference: 400 },
+//               gauge: { axis: { range: [0, 9] } }
+//           }
+//       ];
+
+//       var layout = { width: 600, height: 400 };
+//       Plotly.newPlot('gauge', gaugeData, layout);
+//   });
+
+
+
+
+
+
+// /*********************************** */
+
+
+// //Department-Gender Stats
+// function showOptions() {
+//   d3.json('/api/gender_demogrpahic').then(data => {
+    
+//     var{departments} = data;
+//     departments.forEach(department => {
+//       d3.select('select').append('option').text(department);
+
+//     });
+
+//   });
+
+// };
   
-  department = data.map(d => d.department);
-  jobsatisfaction = data.map(d => d.jobsatisfaction)
-  annual_income = data.map(d => d.annual_income);
-
-  console.log('department', department)
 
 
-  listofdepartments = [],
-  jobsatisfactionlist = [],
-  annualincomelist = [];
+// function showData() {
+//   d3.json('/api/gender_demogrpahic').then(data => {
+//     var {data, mon}
+//   })
+// }
+//     department = data.map(d => d.department);
+//     jobsatisfaction = data.map(d => d.jobsatisfaction)
+//     annual_income = data.map(d => d.annual_income);
+  
+//     console.log('department', department)
+  
+  
+//     listofdepartments = [],
+//     jobsatisfactionlist = [],
+//     annualincomelist = [];
+  
+//   for (var i = 0; i < department.length; i++ ){
+//   if (listofdepartments.indexOf(department[i]) === -1 ){
+//       listofdepartments.push(department[i]);
+//   }
+//   }
+  
+//   function getdepartmentData(chosenDepartment) {
+//   jobsatisfactionlist = [];
+//   annualincomelist = [];
+//   for (var i = 0 ; i < department.length ; i++){
+//       if ( department[i] === chosenDepartment ) {
+//           jobsatisfactionlist.push(jobsatisfaction[i]);
+//           annualincomelist.push(annual_income[i]);
+//       }
+//   }
+//   };
+  
+//   // Default Country Data
+//   setBubblePlot('Research & Development');
+  
+//   function setBubblePlot(chosenDepartment) {
+//     getdepartmentData(chosenDepartment);
+  
+//   var trace1 = {
+//       x: jobsatisfactionlist,
+//       y: annualincomelist,
+//       mode: 'lines+markers',
+//       marker: {
+//           size: 12,
+//           opacity: 0.5
+//       }
+//   };
+  
+//   var data = [trace1];
+  
+//   var layout = {
+//       title:'Line and Scatter Plot',
+//       height: 400,
+//       width: 480
+//   };
+  
+//   Plotly.newPlot('intro-bar-chart', data, layout);
+//   };
+  
+//   var innerContainer = document.querySelector('[data-num="0"'),
+//   plotEl = innerContainer.querySelector('.plot'),
+//   dataselector = innerContainer.querySelector('.departmentdata');
+  
+//   function assignOptions(textArray, selector) {
+//   for (var i = 0; i < textArray.length;  i++) {
+//       var currentOption = document.createElement('option');
+//       currentOption.text = textArray[i];
+//       selector.appendChild(currentOption);
+//   }
+//   }
+  
+//   assignOptions(listofdepartments, dataselector);
+  
+//   function updateDepartment(){
+//   setBubblePlot(dataselector.value);
+//   }
+  
+//   dataselector.addEventListener('change', updateDepartment, false);
+//   });
 
-for (var i = 0; i < department.length; i++ ){
-if (listofdepartments.indexOf(department[i]) === -1 ){
-    listofdepartments.push(department[i]);
-}
-}
+// }
 
-function getdepartmentData(chosenDepartment) {
-jobsatisfactionlist = [];
-annualincomelist = [];
-for (var i = 0 ; i < department.length ; i++){
-    if ( department[i] === chosenDepartment ) {
-        jobsatisfactionlist.push(jobsatisfaction[i]);
-        annualincomelist.push(annual_income[i]);
-    }
-}
-};
-
-// Default Country Data
-setBubblePlot('Research & Development');
-
-function setBubblePlot(chosenDepartment) {
-  getdepartmentData(chosenDepartment);
-
-var trace1 = {
-    x: jobsatisfactionlist,
-    y: annualincomelist,
-    mode: 'lines+markers',
-    marker: {
-        size: 12,
-        opacity: 0.5
-    }
-};
-
-var data = [trace1];
-
-var layout = {
-    title:'Line and Scatter Plot',
-    height: 400,
-    width: 480
-};
-
-Plotly.newPlot('intro-bar-chart', data, layout);
-};
-
-var innerContainer = document.querySelector('[data-num="0"'),
-plotEl = innerContainer.querySelector('.plot'),
-dataselector = innerContainer.querySelector('.departmentdata');
-
-function assignOptions(textArray, selector) {
-for (var i = 0; i < textArray.length;  i++) {
-    var currentOption = document.createElement('option');
-    currentOption.text = textArray[i];
-    selector.appendChild(currentOption);
-}
-}
-
-assignOptions(listofdepartments, dataselector);
-
-function updateDepartment(){
-setBubblePlot(dataselector.value);
-}
-
-dataselector.addEventListener('change', updateDepartment, false);
-});
 
 
 

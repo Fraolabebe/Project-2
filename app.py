@@ -7,7 +7,8 @@ from config import remote_db_endpoint, remote_db_port, remote_db_name, remote_db
 
 # set up MySQL and connect
 pymysql.install_as_MySQLdb()
-engine = create_engine(f"mysql://{remote_db_user}:{remote_db_pwd}@{remote_db_endpoint}:{remote_db_port}/{remote_db_name}")
+
+engine = create_engine(f'mysql://{remote_db_user}:{remote_db_pwd}@{remote_db_endpoint}:{remote_db_port}/{remote_db_name}')
 
 app = Flask(__name__)
 
@@ -21,6 +22,14 @@ def index():
     # use render_template to serve up the index.html
 
     return render_template("index.html")
+
+
+@app.route("/test")
+def test():
+
+    # use render_template to serve up the index.html
+
+    return render_template("test.html")
 
 @app.route("/api/employee_data")
 def employee_data():
@@ -167,17 +176,18 @@ def dept_gender_stats():
     #Return json to client
     return data_json
 
-@app.route("/api/Annualcostturnover")
-def employeecount():
+# what is the total cost of annual turnover
+
+@app.route("/api/annual_cost_turnover")
+def annual_cost_turnover():
 
     conn = engine.connect()
 
     # Opening csv data file 
 
     query = '''
-    SELECT
-        (Sum(MonthlyIncome) * 12) AS AnnualCostofAttrition,
-        count(PerformanceRating) AS performanceRate
+	SELECT
+        (Sum(MonthlyIncome) * 12) AS annual_cost_turnover
     FROM
         employee_survey
     WHERE 
@@ -186,12 +196,14 @@ def employeecount():
     '''
     annual_cost_turnover_df = pd.read_sql(query, con=conn)
     annual_cost_turnover_Json = annual_cost_turnover_df.to_json(orient='records')
-    
+
+   #close db connection 
     conn.close()
+
   #Return json to client
     return annual_cost_turnover_Json
 
-#close db connection
+
     
 # Average Job Satisfaction
 
@@ -209,34 +221,75 @@ def job_satisfaction_avg():
    return job_satisfaction_avg_json
 
 
-@app.route("/api/genderdemogrpahic")
-def genderdemogrpahic():
+
+# Calculating the total cost of overtime paid by attrition
+@app.route("/api/total_overtime_paid")
+def total_overtime_paid():
+
+    conn = engine.connect()
+
+    query = '''
+    SELECT 
+        Attrition AS attrition,
+        overtime,
+        SUM((MonthlyRate*12)) sum_annual_rate_paid,
+        SUM((MonthlyIncome*12)) AS sum_annual_income_paid,
+        SUM(((MonthlyRate-MonthlyIncome)*12)) AS total_overtime_paid
+
+    FROM 
+        employee_survey
+    WHERE overtime = "yes"
+    GROUP BY attrition
+    '''
+    total_overtime_paid_df = pd.read_sql(query, con=conn)
+    total_overtime_paid_json = total_overtime_paid_df.to_json(orient='records')
+
+    #closing the database connection 
+    conn.close()
+
+    #Return json to client
+    return total_overtime_paid_json
+
+#query to see which gender stayed with the company the longest and income disparity by department
+
+@app.route("/api/gender_demographic")
+def gender_demographic():
 
     conn = engine.connect()
   
     query = '''
      SELECT 
+		EmployeeNumber AS employee_number,
+        Department AS department,
+		Gender AS gender,
 	    (MonthlyIncome * 12) AS annual_income,
         CASE Attrition WHEN 'YES' then 1 ELSE 0 END AS attrition,    
-        Gender AS gender,
-        Department AS department,
         JobSatisfaction AS jobsatisfaction,
         YearsAtCompany AS yearsatcompany
     FROM 
 	    employee_survey 
-	WHERE  NOT (attrition is NULL OR
+	WHERE  NOT 
+		(attrition is NULL OR
 		gender IS NULL OR
         department IS NULL OR
         jobsatisfaction IS NULL OR
-        yearsatcompany IS NULL);
+        yearsatcompany IS NULL)
+	ORDER BY 
+		yearsatcompany, gender
     '''
-    Gender_Demographic_df = pd.read_sql(query, con=conn)
-    Gender_Demographic_json = Gender_Demographic_df.to_json(orient='records')
+    gender_demographic_df = pd.read_sql(query, con=conn)
+    gender_demographic_json = gender_demographic_df.to_json(orient='records')
 
+
+    #close DB connection
     conn.close()
-    return Gender_Demographic_json
 
-#close DB connection
+    #Return json to client
+    return gender_demographic_json
+
+
+
+
 
 @app.route("/api/genderIncome")
 def genderIncome(): 
@@ -261,7 +314,10 @@ def genderIncome():
     gender_income_df = pd.read_sql(query, con=conn)
     gender_income_json = gender_income_df.to_json(orient='records')
 
+    #close DB connection
     conn.close()
+
+    #Return json to client
     return gender_income_json
 
 

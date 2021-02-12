@@ -16,6 +16,7 @@
         <!-- Custom CSS & JS -->
         <link rel='stylesheet' href="{{url_for('static', filename='css/style.css')}}" defer></script>
         <script src="{{url_for('static', filename='js/app.js')}}" defer></script>
+        
     </head>
     <body class="dark">
         <div class="wrapper"></div>
@@ -122,6 +123,18 @@
                 </select>
                   <div class="col-md-12">
                       <div id='intro-line-graph'></div>
+                  </div>
+              </div>
+
+              
+              <div class="row">
+                <select name="" id="ajSelect">
+                  <option selected disabled>Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                  <div class="col-md-12">
+                      <div id='attrition-salary'></div>
                   </div>
               </div>
 
