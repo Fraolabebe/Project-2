@@ -19,7 +19,7 @@ conn.close()
 
 conn =  engine.connect()
 
-correlation_data_df = pd.read_csv('Datasets/correlations.csv', error_bad_lines=False)
+correlation_data_df = pd.read_csv('Datasets/correlationData.csv', error_bad_lines=False)
 correlation_data_df.to_sql('correlation_data', con=conn, index=False, if_exists='replace')
 
 conn.close()

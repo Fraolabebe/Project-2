@@ -24,7 +24,7 @@
 
               <!-- Dark/Light Mode Toggle-->
               <div class="header-toggler">
-              <div style="font-weight: 700;">Dark Mode</div>
+                <div style="font-weight: 700;">Dark Mode</div>
               </div>
 
 
@@ -32,6 +32,7 @@
                 <div id="toggler-circle" class="toggler-circle"></div>
               </div>
 
+            </div>
 
             <!-- NAVIGATION BAR -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -108,29 +109,40 @@
               </div>
             
             <!-- COMPANY OVERVIEW CARD -->
-              <div class="card text-whit bg-dark">
-                <div class="card-body">
-                  <h5 class="card-title">Company Overview</h5>
-                  <p class="card-text">Why wait for exit interview to find out why a valuable employee has decided to move on? instead, we can provide Predictive analysis on what’s driving your employees out, and possibly prevent the loss of another top talent from your company?”</p>
+            <div class="card text-white bg-dark">
+              <div class="card-body">
+                <h5 class="card-title">Company Overview</h5>
+                <p class="card-text">Why wait for exit interview to find out why a valuable employee has decided to move on? instead, we can provide Predictive analysis on what’s driving your employees out, and possibly prevent the loss of another top talent from your company?”</p>
+              </div>
+            </div>
+
+            <!-- CONTAINER -->
+
+            <div class='container'>
+              <!-- Filters go here -->                            
+              <div class="row">           
+                <div class="col-md-12">
+
+                  <select id="gender-dropdown" >
+                    <option value = 'all' selected disabled>Select a gender</option>
+                    <option value = "Male">Male</Option>
+                    <option value = "Female">Female</Option>
+                  </select>
+
+                  <select id="dept-dropdown" >
+                    <option value = 'all' selected disabled>Select a department</option>
+                    <option value = "Human Resources">Human Resources</Option>
+                    <option value = "Sales">Sales</Option>
+                    <option value = "Research & Development">Research & Development</Option>
+                  </select>
+
+                  <button id='filter-btn'  class="btn btn-primary">Filter</button>
+
                 </div>
               </div>
 
-                <select name="" id="dept-dropdown">
-                  <option selected disabled> Departments </option>
-                  <Option value="Human Resources">Human Resources</Option>
-                  <Option value="Sales">Sales</Option>
-                  <Option value="Research & Development">Research & Development</Option>
-                </select>
-
-                  <div class="col-md-12">
-                      <div id='intro-line-graph'></div>
-                  </div>
-              </div>
-
-              
+              <!-- Attrition chart -->
               <div class="row">
-                    ATTTRITION SALARY SHOULD BE HERE
-                </select>
                   <div class="col-md-12">
                       <div id='attrition-salary'></div>
                   </div>
@@ -144,28 +156,8 @@
                 </div>
                 </div>
               </div>
-            <!-- BAR AND GAUGE CHART ROW -->
-            <div class="row">
-                <div class="col-md-6"> bar chart shoul db ehere
-                    <div id='intro-bar-chart' style='height: 400px;'></div>
-                </div>
-                <div class="col-md-6">
-                    <div id='intro-gauge-chart'></div>
-                </div>
-            </div>
+            </div> <!-- end of container -->
 
-            <!-- LINE GRAPH ROW -->
-
-
-
-
-
-            <!-- SCATTER PLOT ROW -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div id='intro-scatter-plot'></div>
-                </div>
-            </div>
         </div>
     </body>
 </html>

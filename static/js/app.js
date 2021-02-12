@@ -13,18 +13,25 @@
 var gender = null;
 var dept = null;
 
+/*******************
+ * Drop downs and buttons
+ */
+dept_dropdown = d3.select('#dept-dropdown');
+gender_dropdown = d3.select('#gender-dropdown');
+filter_btn = d3.select('#filter-btn'); 
+
+// add event listener to the filter btn
+dept_dropdown.on('change', filterFunction);
+gender_dropdown.on('change', filterFunction);
+filter_btn.on('click', filterFunction);
+
+// create reset var function
 function resetVariables() {
   gender = null;
   dept = null  
 }
 
-/*******************
- * Event drop down
- */
-dept_dropdown = d3.select('#dept-dropdown');
-dept_dropdown.on('change', filterFunction);
 
-btn = d3.select()
 
 /****************
  * Dept change handler function
@@ -33,11 +40,17 @@ btn = d3.select()
  function filterFunction() {
    
    // select gender dropdown and get value
-   // select dept dropdown and get value
-   // call buildcharts and pass those
+   dept = dept_dropdown.property('value');
+   gender = gender_dropdown.property('value');
+   
+
+   console.log(gender);
+   console.log(dept);
+
 
    buildCharts(gender, dept);
  }
+
 
 /*******************
  * Build charts function
@@ -50,49 +63,29 @@ function buildCharts(gender=null, dept=null) {
   d3.json('/api/gender_demographic').then(data => {
 
 
-    console.log(dept);
+   if(gender) {
+
+      if(gender != 'all') { // only filter if user selects an option
+        data = data.filter(d => d['gender'].trim().toUpperCase() == gender.trim().toUpperCase())
+      }
+
+    }
 
     // apply filter to department if there is a selected value for it
     if(dept) {
 
-      // data.forEach(d => {
-      //   console.log(d['department']);
-      //   console.log(dept);
-      //   console.log('- - -');
+      if(dept != 'all') {
+        data = data.filter(d => d['department'].trim().toUpperCase() == dept.trim().toUpperCase())
+      }
 
-      // });
-
-      data = data.filter(d => d['department'].trim().toUpperCase() == dept.trim().toUpperCase())
-
-      console.log(data.length);
     }
 
-    if(gender) {
-
-      // data.forEach(d => {
-      //   console.log(d['department']);
-      //   console.log(dept);
-      //   console.log('- - -');
-
-      // });
-
-      data = data.filter(d => d['gender'].trim().toUpperCase() == gender.trim().toUpperCase())
-
-      console.log(data.length);
-    }
-
-  
     sortedData = data.sort((d1, d2) => {(d2['annual_income'].toString() - d1['annual_income'].toString())});
-    console.log(sortedData.length);
-  
-    console.log(sortedData);
-  
+      
     employee_number = sortedData.map(d => `EMP ${d['employee_number'].toString()}`);
     attrition = sortedData.map(d => d['attrition']);
     annual_income = sortedData.map(d => d['annual_income']);
-  
-    console.log(annual_income);
-    console.log(employee_number);
+ 
   
     var trace1 = {
       x: employee_number,
@@ -104,49 +97,28 @@ function buildCharts(gender=null, dept=null) {
     };
     
     var data = [trace1];
-
-    var updatemenus=[
-      {
-          buttons: [
-              {
-                  args: ['type', 'Male'],
-                  label: 'Male',
-                  method: 'update'
-              },
-              {
-                  args: ['type', 'Female'],
-                  label:'Female',
-                  method:'update'
-              }
-          ],
-          direction: 'right',
-          pad: {'r': 1000, 't': 10},
-          showactive: true,
-          type: 'buttons',
-          x: 0.1,
-          xanchor: 'left',
-          y: 1.1,
-          yanchor: 'top'
-      }
-  ]
-
     
     var layout = {
       title: 'Annual Income Turnover',
-      updatemenus: updatemenus
+      xaxis: {title: 'Employee'},
+      yaxis: {title: 'Salary'},
+      paper_bgcolor: 'rgba(0,0,0,0)', // transparent - this could be replaced with an actual color if you want
+      plot_bgcolor: 'rgba(0,0,0,0)', // transparent - this could be replaced with an actual color if you want
+      font: {color: 'white'}
     };
     
     Plotly.newPlot('attrition-salary', data, layout);
     
-  });
+  }); // end of d3.json (gender-demo)
 
     // reset config variables
-    resetVariables()
+    resetVariables();
 
-}
+} // end of buildCharts function
 
 // make sure that you call this function
 buildCharts();
+
 
 // Department-Gender Stats
 // d3.json('/api/dept_gender_stats').then(data => {
