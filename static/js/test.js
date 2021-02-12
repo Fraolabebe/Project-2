@@ -1,10 +1,18 @@
-d3.json('/api/gender_demogaphic').then(data => {
+console.log('starting script');
+d3.json('/api/gender_demographic').then(data => {
 
-  data = data.sort((d1, d2) => {d2['annual_income'] - d1['annual_income']});
+  console.log('in d3');
+  sortedData = data.sort((d1, d2) => {(d2['annual_income'].toString() - d1['annual_income'].toString())});
 
-  employee_number = data.map(d => employee_number);
-  attrition = data.map(d => attrition);
-  annual_income = data.map(d => annual_income);
+  console.log(sortedData);
+
+
+  employee_number = sortedData.map(d => `EMP ${d['employee_number'].toString()}`);
+  attrition = sortedData.map(d => d['attrition']);
+  annual_income = sortedData.map(d => d['annual_income']);
+
+  console.log(annual_income);
+  console.log(employee_number);
 
   var trace1 = {
     x: employee_number,

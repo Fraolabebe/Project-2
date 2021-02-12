@@ -14,4 +14,13 @@ employee_survey_df = pd.read_csv('Datasets/employee_attrition_train.csv')
 employee_survey_df.to_sql('employee_survey', con=conn, index=False, if_exists='replace')
 
 conn.close()
-engine.dispose()
+
+
+
+conn =  engine.connect()
+
+correlation_data_df = pd.read_csv('Datasets/correlations.csv', error_bad_lines=False)
+correlation_data_df.to_sql('correlation_data', con=conn, index=False, if_exists='replace')
+
+conn.close()
+engine.dispose

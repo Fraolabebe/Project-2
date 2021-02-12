@@ -275,7 +275,7 @@ def gender_demographic():
         jobsatisfaction IS NULL OR
         yearsatcompany IS NULL)
 	ORDER BY 
-		yearsatcompany, gender
+		annual_income desc
     '''
     gender_demographic_df = pd.read_sql(query, con=conn)
     gender_demographic_json = gender_demographic_df.to_json(orient='records')
