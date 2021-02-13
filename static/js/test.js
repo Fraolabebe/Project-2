@@ -63,13 +63,22 @@ function buildCharts(gender=null, dept=null) {
   d3.json('/api/gender_demographic').then(data => {
 
 
-   if(gender) {
+
+    console.log('in promise');
+    console.log(gender);
+    console.log(dept);
+ 
+
+
+    if(gender) {
 
       if(gender != 'all') { // only filter if user selects an option
-        data = data.filter(d => d['gender'].trim().toUpperCase() == gender.trim().toUpperCase())
+      data = data.filter(d => d['gender'].trim().toUpperCase() == gender.trim().toUpperCase())
       }
 
+      console.log(data.length);
     }
+
 
     // apply filter to department if there is a selected value for it
     if(dept) {
@@ -78,14 +87,24 @@ function buildCharts(gender=null, dept=null) {
         data = data.filter(d => d['department'].trim().toUpperCase() == dept.trim().toUpperCase())
       }
 
+      console.log(data.length);
     }
 
+     
+    
+
+  
     sortedData = data.sort((d1, d2) => {(d2['annual_income'].toString() - d1['annual_income'].toString())});
-      
+    console.log(sortedData.length);
+  
+    console.log(sortedData);
+  
     employee_number = sortedData.map(d => `EMP ${d['employee_number'].toString()}`);
     attrition = sortedData.map(d => d['attrition']);
     annual_income = sortedData.map(d => d['annual_income']);
- 
+  
+    console.log(annual_income);
+    console.log(employee_number);
   
     var trace1 = {
       x: employee_number,
@@ -121,7 +140,6 @@ buildCharts();
 
 
 // Department-Gender Stats
-
 // d3.json('/api/dept_gender_stats').then(data => {
 
 //   gender = data.map(d => d['gender']);
