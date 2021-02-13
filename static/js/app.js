@@ -100,3 +100,31 @@ function buildCharts(gender=null, dept=null) {
 } // end of buildCharts function
 // make sure that you call this function
 buildCharts();
+
+
+// 
+////////////////////////////////////////
+/////////////////////////////////////////
+//Overtime Pie Chart 
+d3.json('/api/total_overtime_paid').then(data => {
+  total_overtime_paid = data.map(d => d['total_overtime_paid']);
+var data = {
+  title: 'Overtime Cost'
+};
+var data = [{
+labels: ["Employees Who Left", "Employees Who Stayed"],
+values: total_overtime_paid,
+type: "pie"
+}];
+var layout = {
+height: 600,
+width: 800,
+paper_bgcolor: 'black',
+plot_bgcolor: 'black',
+title: 'The Cost of Overtime',
+font: {
+  color: 'white'
+},
+};
+Plotly.newPlot("intro-pie-chart", data, layout);
+})
