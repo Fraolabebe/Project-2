@@ -121,6 +121,7 @@ buildCharts();
 
 
 // Department-Gender Stats
+
 // d3.json('/api/dept_gender_stats').then(data => {
 
 //   gender = data.map(d => d['gender']);

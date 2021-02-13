@@ -212,7 +212,18 @@ def job_satisfaction_avg():
 
    conn = engine.connect()
 
-   job_satisfaction_avg = pd.read_sql('SELECT AVG(JobSatisfaction) AS job_satisfaction_avg FROM employee_survey', con=conn)
+
+   query = '''
+    SELECT 
+	    department,
+        AVG(JobSatisfaction) AS job_satisfaction
+    FROM   
+        employee_survey
+    GROUP BY 
+        department
+
+'''
+   job_satisfaction_avg = pd.read_sql(query, con=conn)
    job_satisfaction_avg_json = job_satisfaction_avg.to_json(orient='records')
  
 
