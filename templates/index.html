@@ -104,36 +104,36 @@
             <!-- CARDS ROW -->
             <div class='row'>
               <div class='col-md-4'>
-                <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                  <div class="card-header d-flex justify-content-center" style="color: gold;" >Cost of Annual Turnover</div>
-                  <div class="card-body">
-                    <h5 class="card-title d-flex justify-content-center" style="color: gold; font-weight: bold;">$ 9.7 Million</h5>
-                    <p class="card-text"></p>
+                <div class="card text-white bg-primary mb-3 w-100" style="max-width: 18rem;">
+                  <div class="card-header d-flex justify-content-center"><h4>Annual Turnover Cost</h4></div>
+                  <div class="card-body bg-dark">
+                    <h5 class="card-title d-flex justify-content-center bg-dark" style="color: gold; font-weight: bold;"></h5>
+                    <p class="card-text">$9.7<br/>Million</p>
                   </div>
                 </div>
               </div>
               <div class='col-md-4'>
-                <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                  <div class="card-header d-flex justify-content-center" style="color: gold;" >Average Years in Company</div>
-                  <div class="card-body">
-                    <h5 class="card-title d-flex justify-content-center" style="font-size: small; color: gold;">Current Employess : 7 Years <br/>  Departed Employees: 5 Years </h5>
-                    <p class="card-text"></p>
+                <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                  <div class="card-header d-flex justify-content-center" " ><h4>Employee Tenure</h4></div>
+                  <div class="card-body bg-dark">
+                    <h5 class="card-title d-flex justify-content-center" style="font-size: small; color: gold;"> </h5>
+                    <p class="card-text">Former Employees: 5 Years<br/>Current Employees: 7 Years</p>
                   </div>
                 </div>
               </div>
               <div class='col-md-4'>
-                <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                  <div class="card-header d-flex justify-content-center" style="color: gold;" >Annual Overtime Rate</div>
-                  <div class="card-body">
-                    <h5 class="card-title d-flex justify-content-center" style="color: gold; font-weight: bold;">28%</h5>
-                    <p class="card-text"></p>
+                <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                  <div class="card-header d-flex justify-content-center" "><h4>Annual Overtime Rate</h4></div>
+                  <div class="card-body bg-dark">
+                    <h5 class="card-title d-flex justify-content-center" style="color: gold; font-weight: bold;"></h5>
+                    <p class="card-text">28%<br/>of employees</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div>
-              <div class="row" style="background-color: black; margin-bottom: 10%; margin-left: 5%;"></div>
+              <div class="row" style="background-color: black;"></div>
             </div>
             <!-- CONTAINER -->
             <div class='container'>
@@ -153,35 +153,26 @@
                   </select>
                   <button id='filter-btn'  class="btn btn-primary">Filter</button>
                 </div>
-              </div>
+              </div><p></p>
               <!-- Attrition chart -->
               <div class="row">
-                  <div class="col-md-8" style="margin-left: -20%; size: 2000px;">
+                  <div class="col-md-12" style="text-align:center; color:white">
+                    <h4>Annual Income Turnover</h4>
                       <div id='attrition-salary'></div>
                   </div>
-                  <div class="col-md-4" style="margin-left: 20%;">
-                    <div id='intro-gauge-chart'></div>
+              </div><p></p><hr/>
+              <div class="row" >
+                <div class="col-md-6"  style="text-align:center; color: white">
+                  <h4>Overtime Cost</h4>
+                    <div id='intro-pie-chart'></div>
                 </div>
+                <div class="col-md-6"  style="text-align:center; color:white">
+                  <h4>Avg. Employee Satisfaction</h4>
+                  <div id='intro-gauge-chart'></div>
               </div>
-              <div class="row">
-                <div class="col-md-12">
-                    <div id='intro-line-graph2'></div>
-                </div>
-                </div>
               </div>
             </div> <!-- end of container -->
-            <!-- Guage Chart -->
-            <div class="row">
-            </div>
-            <div class="col-md-6">
-                <div id='intro-gauge-chart'></div>
-            </div>
 
-            <div class="row">
-              <div class="col-md-12">
-                  <div id='intro-pie-chart'></div>
-              </div>
-          </div>
             </div>
         </div>
     </body>

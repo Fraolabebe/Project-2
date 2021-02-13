@@ -29,7 +29,6 @@ var data = [
 	{
 		domain: { x: [0, 1], y: [0, 1] },
 		value: 2.7123,
-		title: { text: "Average Job Satisfaction" },
 		type: "indicator",
 		mode: "gauge+number"
 	}
@@ -85,7 +84,7 @@ function buildCharts(gender=null, dept=null) {
     };
     var data = [trace1];
     var layout = {
-      title: 'Annual Income Turnover',
+      
       xaxis: {title: 'Employee'},
       yaxis: {title: 'Salary'},
       paper_bgcolor: 'rgba(0,0,0,0)', // transparent - this could be replaced with an actual color if you want
@@ -121,7 +120,6 @@ height: 600,
 width: 800,
 paper_bgcolor: 'black',
 plot_bgcolor: 'black',
-title: 'The Cost of Overtime',
 font: {
   color: 'white'
 },
