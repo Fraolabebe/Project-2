@@ -21,26 +21,11 @@ filter_btn.on('click', filterFunction);
 function resetVariables() {
   gender = null;
   dept = null  
-}
+};
 /****************
  * Gauge Chart
  */
-var data = [
-	{
-		domain: { x: [0, 1], y: [0, 1] },
-		value: 2.7123,
-		type: "indicator",
-		mode: "gauge+number"
-	}
-];
-var layout = { width: 600, height: 500, margin: { t: 0, b: 0 },
-font: {
-  color: 'white'
-},
-paper_bgcolor: 'black',
-plot_bgcolor: 'black'
-};
-Plotly.newPlot('intro-gauge-chart', data, layout);
+
 /****************
  * Dept change handler function
  */
@@ -51,11 +36,61 @@ Plotly.newPlot('intro-gauge-chart', data, layout);
    console.log(gender);
    console.log(dept);
    buildCharts(gender, dept);
+  console.log(dept, "Here is the department")
+  buildChartGuage(dept);
+
+resetVariables();
  }
 /*******************
  * Build charts function
  */
 //set up to accept gender
+
+function buildChartGuage(department=null){
+  d3.json('/api/job_satisfaction_avg').then(data => {
+    if(department){
+
+    data = data.filter(d => d['department'].trim().toUpperCase() == department.trim().toUpperCase())
+    
+
+    }
+    job_sat = data.map(d => d['job_satisfaction']);
+
+    dept = data.map(d => d['department']);
+    
+  var readyData = [
+    {
+      domain: { x: [0, 1], y: [0, 1] },
+      value: job_sat[0],
+      title: { text: dept[0]},
+      type: "indicator",
+      mode: "gauge+number",
+      delta: { reference: 400 },
+      gauge: { axis: { range: [0, 5] } }
+    }
+  ];
+  var layout = { width: 600, height: 500, margin: { t: 0, b: 0 },
+  font: {
+    color: 'white'
+  },
+  paper_bgcolor: 'black',
+  plot_bgcolor: 'green'
+  };
+
+  console.log("===================")
+  console.log(readyData)
+  console.log(job_sat)
+  console.log(dept)
+  console.log("he is the gaugeee")
+  Plotly.newPlot('intro-gauge-chart', readyData, layout);
+
+});
+
+}
+
+buildChartGuage();
+
+
 function buildCharts(gender=null, dept=null) {
   // attrition chart
   d3.json('/api/gender_demographic').then(data => {
@@ -92,10 +127,9 @@ function buildCharts(gender=null, dept=null) {
       font: {color: 'white'},
       fillcolor: 'blue'
     };
-    Plotly.newPlot('attrition-salary', data, layout);
+    Plotly.newPlot('attrition-salary', data, layout); 
   }); // end of d3.json (gender-demo)
     // reset config variables
-    resetVariables();
 } // end of buildCharts function
 // make sure that you call this function
 buildCharts();
